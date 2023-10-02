@@ -32,10 +32,10 @@ public class District implements Serializable {
     private Integer id;
 
     /**
-     * municpality表主键id
+     * municipality表主键id
      */
-    @TableField("municpality_id")
-    private Integer municpalityId;
+    @TableField("municipality_id")
+    private Integer municipalityId;
 
     /**
      * 区名
