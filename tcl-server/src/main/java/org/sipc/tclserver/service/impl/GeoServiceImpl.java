@@ -2,6 +2,7 @@ package org.sipc.tclserver.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import lombok.RequiredArgsConstructor;
+import org.sipc.tclserver.common.Constant;
 import org.sipc.tclserver.mapper.DistrictMapper;
 import org.sipc.tclserver.mapper.MunicipalityMapper;
 import org.sipc.tclserver.mapper.ProvinceMapper;
@@ -50,6 +51,8 @@ public class GeoServiceImpl implements GeoService {
             //存放municipality列表
             List<GeoPo> municipalityPoList = new ArrayList<>();
 
+            List<Integer> municipalityIdList = new ArrayList<>();
+
             //遍历寻找municipality信息
             for (Municipality municipality : municipalityMapper.selectList(
                     new UpdateWrapper<Municipality>().eq("province_id", province.getId())
@@ -63,6 +66,8 @@ public class GeoServiceImpl implements GeoService {
                 //存放district列表
                 List<GeoPo> districtPoList = new ArrayList<>();
 
+                List<Integer> districtIdList = new ArrayList<>();
+
                 //遍历寻找district信息
                 for (District district : districtMapper.selectList(
                         new UpdateWrapper<District>().eq("municipality_id", municipality.getId())
@@ -75,6 +80,10 @@ public class GeoServiceImpl implements GeoService {
 
                     //将当前districtPo添加进districtPoList
                     districtPoList.add(districtPo);
+
+                    //将districtId添加到districtIdList
+                    districtIdList.add(district.getId());
+
                 }
 
                 //将当前districtPoList设置当前municipalityPo的GeoPoList
@@ -82,6 +91,11 @@ public class GeoServiceImpl implements GeoService {
 
                 //将当前municipalityPo添加进municipalityPo
                 municipalityPoList.add(municipalityPo);
+
+                //配置对应的市区map
+                Constant.municipalityD.put(municipality.getId(), districtIdList);
+
+                municipalityIdList.add(municipality.getId());
             }
 
             //将当前municipalityPoList设置当前provincePo的GeoPoList
@@ -89,6 +103,8 @@ public class GeoServiceImpl implements GeoService {
 
             //将当前provincePo添加进provincePoList
             provincePoList.add(provincePo);
+
+            Constant.provinceM.put(province.getId(), municipalityIdList);
 
         }
 
