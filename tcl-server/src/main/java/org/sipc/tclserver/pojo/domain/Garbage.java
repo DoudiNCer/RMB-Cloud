@@ -1,14 +1,11 @@
 package org.sipc.tclserver.pojo.domain;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableLogic;
-import com.baomidou.mybatisplus.annotation.TableName;
-import java.io.Serializable;
-import java.time.LocalDateTime;
+import com.baomidou.mybatisplus.annotation.*;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -16,7 +13,7 @@ import lombok.Setter;
  * </p>
  *
  * @author tzih
- * @since 2023-10-02
+ * @since 2023-10-04
  */
 @Getter
 @Setter
@@ -30,6 +27,12 @@ public class Garbage implements Serializable {
      */
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
+
+    @TableField("province_id")
+    private Integer provinceId;
+
+    @TableField("municipality_id")
+    private Integer municipalityId;
 
     /**
      * district表的主键id，表示垃圾桶所处地区id
