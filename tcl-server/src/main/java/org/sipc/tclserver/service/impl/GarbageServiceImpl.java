@@ -9,13 +9,17 @@ import org.sipc.tclserver.mapper.MunicipalityMapper;
 import org.sipc.tclserver.mapper.ProvinceMapper;
 import org.sipc.tclserver.pojo.domain.District;
 import org.sipc.tclserver.pojo.domain.Garbage;
+import org.sipc.tclserver.pojo.domain.Municipality;
+import org.sipc.tclserver.pojo.domain.Province;
 import org.sipc.tclserver.pojo.dto.CommonResult;
+import org.sipc.tclserver.pojo.dto.param.GarbageAllParam;
 import org.sipc.tclserver.pojo.dto.result.GarbageAllResult;
 import org.sipc.tclserver.pojo.dto.result.po.GarbagePo;
 import org.sipc.tclserver.service.GarbageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -86,5 +90,40 @@ public class GarbageServiceImpl implements GarbageService {
         garbagePo.setContent(garbage.getContent());
 
         garbagePoList.add(garbagePo);
+    }
+
+    @Override
+    public CommonResult<String> add(GarbageAllParam garbageAllParam) {
+
+        District district = districtMapper.selectById(garbageAllParam.getDistrictId());
+
+        if (district == null) {
+            return CommonResult.fail("不存在的districtId");
+        }
+
+        Municipality municipality = municipalityMapper.selectById(district.getMunicipalityId());
+
+        if (municipality == null) {
+            return CommonResult.fail("不存在的districtId");
+        }
+
+        Province province = provinceMapper.selectById(municipality.getProvinceId());
+
+        if (province == null) {
+            return CommonResult.fail("不存在的districtId");
+        }
+
+        Garbage garbage = new Garbage();
+
+        garbage.setContent(garbageAllParam.getContent());
+        garbage.setProvinceId(province.getId());
+        garbage.setMunicipalityId(municipality.getId());
+        garbage.setDistrictId(district.getId());
+        garbage.setGmtCreate(LocalDateTime.now());
+        garbage.setGmtModified(LocalDateTime.now());
+
+        garbageMapper.insert(garbage);
+
+        return CommonResult.success("新建成功");
     }
 }
