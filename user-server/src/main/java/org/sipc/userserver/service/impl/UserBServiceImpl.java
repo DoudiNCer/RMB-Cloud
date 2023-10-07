@@ -8,10 +8,8 @@ import org.sipc.userserver.pojo.domain.UserB;
 import org.sipc.userserver.pojo.dto.CommonResult;
 import org.sipc.userserver.pojo.dto.param.userB.BTokenVerifyParam;
 import org.sipc.userserver.pojo.dto.param.userB.UserBLoginParam;
-import org.sipc.userserver.pojo.dto.param.userB.UserBRegistParam;
 import org.sipc.userserver.pojo.dto.result.userB.UserBLoginResult;
 import org.sipc.userserver.service.UserBService;
-import org.sipc.userserver.service.UserCService;
 import org.sipc.userserver.util.CheckRoleUtil;
 import org.sipc.userserver.util.PasswordUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,25 +43,6 @@ public class UserBServiceImpl implements UserBService {
         result.setUsername(user.getName());
         result.setToken(CheckRoleUtil.createBToken(user));
         return CommonResult.success(result);
-    }
-
-    /**
-     * B 端用户注册
-     *
-     * @param param 用户名与密码
-     * @return 注册结果
-     */
-    @Override
-    public CommonResult<String> register(UserBRegistParam param) {
-        UserB user = userBMapper.selectOne(new QueryWrapper<UserB>().eq("user", param.getUsername()));
-        if (user != null){
-            return CommonResult.fail("用户也已存在");
-        }
-        user = new UserB();
-        user.setName(param.getUsername());
-        user.setPassword(PasswordUtil.getBPassword(param.getPassword()));
-        userBMapper.insert(user);
-        return CommonResult.success();
     }
 
     /**
