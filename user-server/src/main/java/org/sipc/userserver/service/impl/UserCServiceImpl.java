@@ -43,6 +43,7 @@ public class UserCServiceImpl implements UserCService {
         result.setUserId(user.getId());
         result.setUsername(user.getName());
         result.setToken(CheckRoleUtil.createCToken(user));
+        result.setCredit(user.getCredit());
         return CommonResult.success(result);
     }
 
@@ -56,7 +57,7 @@ public class UserCServiceImpl implements UserCService {
     public CommonResult<String> register(UserCRegistParam param) {
         UserC user = userCMapper.selectOne(new QueryWrapper<UserC>().eq("user", param.getUsername()));
         if (user != null){
-            return CommonResult.fail("用户也已存在");
+            return CommonResult.fail("用户已存在");
         }
         user = new UserC();
         user.setName(param.getUsername());
@@ -81,6 +82,7 @@ public class UserCServiceImpl implements UserCService {
         if (!Objects.equals(userC1.getName(), userC.getName())){
             return CommonResult.userAuthError();
         }
+        userC.setCredit(userC1.getCredit());
         return CommonResult.success(userC);
     }
 }
