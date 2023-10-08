@@ -26,4 +26,6 @@ public class GarbagePo {
 
     private Double longitude;
 
+    private Integer status;
+
 }
