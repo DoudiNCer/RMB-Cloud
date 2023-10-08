@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 /**
@@ -62,13 +63,13 @@ public class Garbage implements Serializable {
      * 纬度
      */
     @TableField("latitude")
-    private Object latitude;
+    private BigDecimal latitude;
 
     /**
      * 经度
      */
     @TableField("longitude")
-    private Object longitude;
+    private BigDecimal longitude;
 
     /**
      * 创建时间
