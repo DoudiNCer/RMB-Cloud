@@ -96,9 +96,10 @@ public class GarbageServiceImpl implements GarbageService {
         garbagePo.setContent(garbage.getContent());
 
         garbagePo.setCreateTime(TimeTransUtil.tranStringDay(garbage.getGmtCreate()));
-        garbagePo.setLocation(garbagePo.getLocation());
-        garbagePo.setLatitude(garbagePo.getLatitude());
-        garbagePo.setLongitude(garbagePo.getLongitude());
+        garbagePo.setLocation(garbage.getLocation());
+        garbagePo.setLatitude(garbage.getLatitude().doubleValue());
+        garbagePo.setLongitude(garbage.getLongitude().doubleValue());
+        garbagePo.setStatus(garbage.getStatus());
 
         garbagePoList.add(garbagePo);
     }
@@ -163,9 +164,15 @@ public class GarbageServiceImpl implements GarbageService {
 //        }
         StatusPo statusPo = new StatusPo();
         List<TypeNumPo> typeNumPos = garbageMapper.selectStatusNumByDistrictId(districtId);
-        if (typeNumPos.size() == 2) {
-            statusPo.setNormal(typeNumPos.get(0).getNum());
-            statusPo.setFault(typeNumPos.get(1).getNum());
+        for (TypeNumPo typeNumPo : typeNumPos) {
+            switch (typeNumPo.getType()) {
+                case 1, 2:
+                    statusPo.setNormal(statusPo.getNormal() + typeNumPo.getNum());
+                    break;
+                case 3:
+                    statusPo.setFault(statusPo.getNormal() + typeNumPo.getNum());
+                    break;
+            }
         }
 
         LocalDateTime nowTime = LocalDateTime.now();
