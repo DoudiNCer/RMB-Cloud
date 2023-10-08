@@ -1,5 +1,5 @@
 server:
-  address: 38092
+  port:
 
 spring:
   application:
@@ -9,7 +9,7 @@ spring:
       preferred-json-mapper: jackson
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url:
+    url: jdbc:mysql:///?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
     username:
     password:
 
@@ -17,22 +17,22 @@ spring:
     multipart:
       max-file-size: 200MB
       max-request-size: 200MB
-  rabbitmq:
-    host:
-    port:
-    username:
-    password:
-    #确认消息已发送到交换机(Exchange)
-    publisher-confirm-type: correlated
-    #确认消息已发送到队列(Queue)
-    publisher-returns: true
-
-  cloud:
-    nacos:
-      server-addr:
-      discovery:
-        ip:
-        port:
+#  rabbitmq:
+#    host:
+#    port:
+#    username:
+#    password:
+#    #确认消息已发送到交换机(Exchange)
+#    publisher-confirm-type: correlated
+#    #确认消息已发送到队列(Queue)
+#    publisher-returns: true
+#
+#  cloud:
+#    nacos:
+#      server-addr:
+#      discovery:
+#        ip:
+#        port:
 
 mybatis-plus:
   mapper-locations: classpath:/mapper/*.xml

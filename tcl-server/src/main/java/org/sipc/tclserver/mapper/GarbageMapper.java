@@ -3,6 +3,9 @@ package org.sipc.tclserver.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.sipc.tclserver.pojo.domain.Garbage;
+import org.sipc.tclserver.pojo.domain.po.TypeNumPo;
+
+import java.util.List;
 
 /**
  * <p>
@@ -14,5 +17,7 @@ import org.sipc.tclserver.pojo.domain.Garbage;
  */
 @Mapper
 public interface GarbageMapper extends BaseMapper<Garbage> {
+
+    List<TypeNumPo> selectStatusNumByDistrictId(Integer districtId);
 
 }

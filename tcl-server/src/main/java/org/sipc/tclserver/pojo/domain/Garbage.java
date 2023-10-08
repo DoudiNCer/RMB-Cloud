@@ -1,14 +1,12 @@
 package org.sipc.tclserver.pojo.domain;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableLogic;
-import com.baomidou.mybatisplus.annotation.TableName;
-import java.io.Serializable;
-import java.time.LocalDateTime;
+import com.baomidou.mybatisplus.annotation.*;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -16,7 +14,7 @@ import lombok.Setter;
  * </p>
  *
  * @author tzih
- * @since 2023-10-02
+ * @since 2023-10-08
  */
 @Getter
 @Setter
@@ -31,6 +29,12 @@ public class Garbage implements Serializable {
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
+    @TableField("province_id")
+    private Integer provinceId;
+
+    @TableField("municipality_id")
+    private Integer municipalityId;
+
     /**
      * district表的主键id，表示垃圾桶所处地区id
      */
@@ -42,6 +46,30 @@ public class Garbage implements Serializable {
      */
     @TableField("content")
     private String content;
+
+    /**
+     * 0正常，1已满，2烟雾报警
+     */
+    @TableField("status")
+    private Integer status;
+
+    /**
+     * 位置
+     */
+    @TableField("location")
+    private String location;
+
+    /**
+     * 纬度
+     */
+    @TableField("latitude")
+    private BigDecimal latitude;
+
+    /**
+     * 经度
+     */
+    @TableField("longitude")
+    private BigDecimal longitude;
 
     /**
      * 创建时间
