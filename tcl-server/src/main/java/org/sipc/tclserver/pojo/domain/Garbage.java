@@ -47,7 +47,7 @@ public class Garbage implements Serializable {
     private String content;
 
     /**
-     * 状态，0正常，1异常
+     * 0正常，1已满，2烟雾报警
      */
     @TableField("status")
     private Integer status;
