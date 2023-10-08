@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
  * </p>
  *
  * @author tzih
- * @since 2023-10-04
+ * @since 2023-10-08
  */
 @Getter
 @Setter
@@ -49,7 +49,26 @@ public class Garbage implements Serializable {
     /**
      * 状态，0正常，1异常
      */
+    @TableField("status")
     private Integer status;
+
+    /**
+     * 位置
+     */
+    @TableField("location")
+    private String location;
+
+    /**
+     * 纬度
+     */
+    @TableField("latitude")
+    private Object latitude;
+
+    /**
+     * 经度
+     */
+    @TableField("longitude")
+    private Object longitude;
 
     /**
      * 创建时间
