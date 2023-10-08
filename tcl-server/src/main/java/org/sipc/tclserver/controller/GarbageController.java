@@ -42,8 +42,17 @@ public class GarbageController {
         }
     }
 
+    @PostMapping("/delete")
+    public CommonResult<String> delete(@RequestParam Integer garbageId) {
+        try {
+            return garbageService.delete(garbageId);
+        } catch (DateBaseException e) {
+            return CommonResult.fail("请求异常，请稍后再试");
+        }
+    }
+
     @GetMapping("/data")
     public CommonResult<DataResult> data(@RequestParam Integer districtId) {
-        return null;
+        return garbageService.data(districtId);
     }
 }

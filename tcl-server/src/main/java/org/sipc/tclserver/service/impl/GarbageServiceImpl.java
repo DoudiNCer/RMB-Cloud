@@ -164,6 +164,18 @@ public class GarbageServiceImpl implements GarbageService {
     }
 
     @Override
+    public CommonResult<String> delete(Integer garbageId) throws DateBaseException {
+
+        int deletedNum = garbageMapper.deleteById(garbageId);
+
+        if (deletedNum != 1) {
+            throw new DateBaseException("数据库删除数异常");
+        }
+
+        return CommonResult.success("请求成功");
+    }
+
+    @Override
     public CommonResult<DataResult> data(Integer districtId) {
 
 //        List<TypeNumPo> typeNumPos = garbageRecordMapper.selectUseNumByDistrictId(districtId);
