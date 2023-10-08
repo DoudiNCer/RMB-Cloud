@@ -200,33 +200,7 @@ public class GarbageServiceImpl implements GarbageService {
                         flag = false;
                     }
                     //
-                    switch (idNameTypeNumPo.getType()) {
-                        case 1:
-                            //设置垃圾桶每种垃圾的数量
-                            garbageSortPoT.setRecyclable(idNameTypeNumPo.getNum());
-                            //设置所有垃圾桶每种垃圾的数量
-                            garbageSortPoAll.setRecyclable(garbageSortPoAll.getRecyclable() + idNameTypeNumPo.getNum());
-                            break;
-                        case 2:
-                            //设置垃圾桶每种垃圾的数量
-                            garbageSortPoT.setNotRecyclable(idNameTypeNumPo.getNum());
-                            //设置所有垃圾桶每种垃圾的数量
-                            garbageSortPoAll.setNotRecyclable(garbageSortPoAll.getNotRecyclable() + idNameTypeNumPo.getNum());
-                            break;
-                        case 3:
-                            //设置垃圾桶每种垃圾的数量
-                            garbageSortPoT.setHarmful(idNameTypeNumPo.getNum());
-                            //设置所有垃圾桶每种垃圾的数量;
-                            garbageSortPoAll.setHarmful(garbageSortPoT.getHarmful() + idNameTypeNumPo.getNum());
-                            break;
-                        case 4:
-                            //设置垃圾桶每种垃圾的数量
-                            garbageSortPoT.setFoodWaste(idNameTypeNumPo.getNum());
-                            //设置所有垃圾桶每种垃圾的数量
-                            garbageSortPoAll.setFoodWaste(garbageSortPoAll.getFoodWaste() + idNameTypeNumPo.getNum());
-                            break;
-                    }
-                    garbageUsePoT.setUseNum(garbageUsePoT.getUseNum() + idNameTypeNumPo.getNum());
+                    setTData(garbageSortPoAll, garbageSortPoT, garbageUsePoT, idNameTypeNumPo);
 
                 } else {
 
@@ -249,33 +223,7 @@ public class GarbageServiceImpl implements GarbageService {
                     flag = false;
                     
                     //
-                    switch (idNameTypeNumPo.getType()) {
-                        case 1:
-                            //设置垃圾桶每种垃圾的数量
-                            garbageSortPoT.setRecyclable(idNameTypeNumPo.getNum());
-                            //设置所有垃圾桶每种垃圾的数量
-                            garbageSortPoAll.setRecyclable(garbageSortPoAll.getRecyclable() + idNameTypeNumPo.getNum());
-                            break;
-                        case 2:
-                            //设置垃圾桶每种垃圾的数量
-                            garbageSortPoT.setNotRecyclable(idNameTypeNumPo.getNum());
-                            //设置所有垃圾桶每种垃圾的数量
-                            garbageSortPoAll.setNotRecyclable(garbageSortPoAll.getNotRecyclable() + idNameTypeNumPo.getNum());
-                            break;
-                        case 3:
-                            //设置垃圾桶每种垃圾的数量
-                            garbageSortPoT.setHarmful(idNameTypeNumPo.getNum());
-                            //设置所有垃圾桶每种垃圾的数量;
-                            garbageSortPoAll.setHarmful(garbageSortPoT.getHarmful() + idNameTypeNumPo.getNum());
-                            break;
-                        case 4:
-                            //设置垃圾桶每种垃圾的数量
-                            garbageSortPoT.setFoodWaste(idNameTypeNumPo.getNum());
-                            //设置所有垃圾桶每种垃圾的数量
-                            garbageSortPoAll.setFoodWaste(garbageSortPoAll.getFoodWaste() + idNameTypeNumPo.getNum());
-                            break;
-                    }
-                    garbageUsePoT.setUseNum(garbageUsePoT.getUseNum() + idNameTypeNumPo.getNum());
+                    setTData(garbageSortPoAll, garbageSortPoT, garbageUsePoT, idNameTypeNumPo);
                 }
             }
         }
@@ -289,5 +237,35 @@ public class GarbageServiceImpl implements GarbageService {
         result.setGarbageUseList(garbageUseList);
 
         return CommonResult.success(result);
+    }
+
+    private void setTData(GarbageSortPo garbageSortPoAll, GarbageSortPo garbageSortPoT, GarbageUsePo garbageUsePoT, IdNameTypeNumPo idNameTypeNumPo) {
+        switch (idNameTypeNumPo.getType()) {
+            case 1:
+                //设置垃圾桶每种垃圾的数量
+                garbageSortPoT.setRecyclable(idNameTypeNumPo.getNum());
+                //设置所有垃圾桶每种垃圾的数量
+                garbageSortPoAll.setRecyclable(garbageSortPoAll.getRecyclable() + idNameTypeNumPo.getNum());
+                break;
+            case 2:
+                //设置垃圾桶每种垃圾的数量
+                garbageSortPoT.setNotRecyclable(idNameTypeNumPo.getNum());
+                //设置所有垃圾桶每种垃圾的数量
+                garbageSortPoAll.setNotRecyclable(garbageSortPoAll.getNotRecyclable() + idNameTypeNumPo.getNum());
+                break;
+            case 3:
+                //设置垃圾桶每种垃圾的数量
+                garbageSortPoT.setHarmful(idNameTypeNumPo.getNum());
+                //设置所有垃圾桶每种垃圾的数量;
+                garbageSortPoAll.setHarmful(garbageSortPoT.getHarmful() + idNameTypeNumPo.getNum());
+                break;
+            case 4:
+                //设置垃圾桶每种垃圾的数量
+                garbageSortPoT.setFoodWaste(idNameTypeNumPo.getNum());
+                //设置所有垃圾桶每种垃圾的数量
+                garbageSortPoAll.setFoodWaste(garbageSortPoAll.getFoodWaste() + idNameTypeNumPo.getNum());
+                break;
+        }
+        garbageUsePoT.setUseNum(garbageUsePoT.getUseNum() + idNameTypeNumPo.getNum());
     }
 }
