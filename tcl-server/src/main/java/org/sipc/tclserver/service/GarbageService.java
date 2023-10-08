@@ -15,6 +15,8 @@ public interface GarbageService {
 
     CommonResult<String> edit(EditTrashParam editTrashParam) throws DateBaseException;
 
+    CommonResult<String> delete(Integer garbageId) throws DateBaseException;
+
     CommonResult<DataResult> data(Integer districtId);
 
 }
