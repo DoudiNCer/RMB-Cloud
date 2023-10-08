@@ -47,6 +47,11 @@ public class Garbage implements Serializable {
     private String content;
 
     /**
+     * 状态，0正常，1异常
+     */
+    private Integer status;
+
+    /**
      * 创建时间
      */
     @TableField("gmt_create")
