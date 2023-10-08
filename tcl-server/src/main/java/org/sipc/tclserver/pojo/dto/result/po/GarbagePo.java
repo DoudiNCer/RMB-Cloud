@@ -18,4 +18,12 @@ public class GarbagePo {
 
     private String content;
 
+    private String createTime;
+
+    private String location;
+
+    private Double latitude;
+
+    private Double longitude;
+
 }

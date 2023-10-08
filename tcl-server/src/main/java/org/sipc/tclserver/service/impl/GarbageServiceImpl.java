@@ -19,6 +19,7 @@ import org.sipc.tclserver.pojo.dto.result.po.GarbageSortPo;
 import org.sipc.tclserver.pojo.dto.result.po.GarbageUsePo;
 import org.sipc.tclserver.pojo.dto.result.po.StatusPo;
 import org.sipc.tclserver.service.GarbageService;
+import org.sipc.tclserver.util.TimeTransUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -93,6 +94,11 @@ public class GarbageServiceImpl implements GarbageService {
         }
 
         garbagePo.setContent(garbage.getContent());
+
+        garbagePo.setCreateTime(TimeTransUtil.tranStringDay(garbage.getGmtCreate()));
+        garbagePo.setLocation(garbagePo.getLocation());
+        garbagePo.setLatitude(garbagePo.getLatitude());
+        garbagePo.setLongitude(garbagePo.getLongitude());
 
         garbagePoList.add(garbagePo);
     }
