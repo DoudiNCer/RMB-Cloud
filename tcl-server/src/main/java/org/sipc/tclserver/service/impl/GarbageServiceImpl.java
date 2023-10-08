@@ -3,6 +3,7 @@ package org.sipc.tclserver.service.impl;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import lombok.RequiredArgsConstructor;
 import org.sipc.tclserver.common.Constant;
+import org.sipc.tclserver.exection.DateBaseException;
 import org.sipc.tclserver.mapper.*;
 import org.sipc.tclserver.pojo.domain.District;
 import org.sipc.tclserver.pojo.domain.Garbage;
@@ -11,6 +12,7 @@ import org.sipc.tclserver.pojo.domain.Province;
 import org.sipc.tclserver.pojo.domain.po.IdNameTypeNumPo;
 import org.sipc.tclserver.pojo.domain.po.TypeNumPo;
 import org.sipc.tclserver.pojo.dto.CommonResult;
+import org.sipc.tclserver.pojo.dto.param.EditTrashParam;
 import org.sipc.tclserver.pojo.dto.param.GarbageAllParam;
 import org.sipc.tclserver.pojo.dto.result.DataResult;
 import org.sipc.tclserver.pojo.dto.result.GarbageAllResult;
@@ -22,7 +24,9 @@ import org.sipc.tclserver.service.GarbageService;
 import org.sipc.tclserver.util.TimeTransUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -137,6 +141,26 @@ public class GarbageServiceImpl implements GarbageService {
         garbageMapper.insert(garbage);
 
         return CommonResult.success("新建成功");
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public CommonResult<String> edit(EditTrashParam editTrashParam) throws DateBaseException {
+
+        Garbage garbage = new Garbage();
+
+        garbage.setId(editTrashParam.getId());
+        garbage.setContent(editTrashParam.getName());
+        garbage.setLocation(editTrashParam.getLocation());
+        garbage.setLatitude(BigDecimal.valueOf(editTrashParam.getLatitude()));
+        garbage.setLongitude(BigDecimal.valueOf(editTrashParam.getLongitude()));
+
+        int updateNum = garbageMapper.updateById(garbage);
+        if (updateNum != 1) {
+            throw new DateBaseException("数据库修改数异常");
+        }
+
+        return CommonResult.success("请求成功");
     }
 
     @Override
