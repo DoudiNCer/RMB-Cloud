@@ -31,6 +31,9 @@ public class GarbageRecord implements Serializable {
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
+    @TableField("district_id")
+    private Integer districtId;
+
     /**
      * garbage表主键id，代表垃圾桶的id
      */
