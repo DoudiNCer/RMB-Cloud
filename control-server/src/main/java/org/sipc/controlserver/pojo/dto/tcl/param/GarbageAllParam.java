@@ -14,4 +14,9 @@ public class GarbageAllParam {
 
     private Integer districtId;
 
+    private String location;
+
+    private Double latitude;
+
+    private Double longitude;
 }
