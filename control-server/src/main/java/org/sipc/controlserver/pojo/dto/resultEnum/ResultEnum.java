@@ -1,4 +1,4 @@
-package org.sipc.tclserver.pojo.dto.resultEnum;
+package org.sipc.controlserver.pojo.dto.resultEnum;
 
 import lombok.Getter;
 

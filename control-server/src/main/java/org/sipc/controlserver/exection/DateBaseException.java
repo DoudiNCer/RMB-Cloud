@@ -1,4 +1,4 @@
-package org.sipc.tclserver.exection;
+package org.sipc.controlserver.exection;
 
 /**
  * 自定义的数据库操作异常

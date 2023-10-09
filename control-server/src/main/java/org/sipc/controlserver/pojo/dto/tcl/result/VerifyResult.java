@@ -1,4 +1,4 @@
-package org.sipc.tclserver.pojo.dto.result;
+package org.sipc.controlserver.pojo.dto.tcl.result;
 
 import lombok.Data;
 

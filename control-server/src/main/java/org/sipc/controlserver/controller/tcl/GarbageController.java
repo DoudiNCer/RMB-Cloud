@@ -1,15 +1,16 @@
-package org.sipc.tclserver.controller;
+package org.sipc.controlserver.controller.tcl;
 
-import  lombok.RequiredArgsConstructor;
-import org.sipc.tclserver.exection.DateBaseException;
-import org.sipc.tclserver.pojo.dto.CommonResult;
-import org.sipc.tclserver.pojo.dto.param.EditTrashParam;
-import org.sipc.tclserver.pojo.dto.param.GarbageAllParam;
-import org.sipc.tclserver.pojo.dto.param.VerifyParam;
-import org.sipc.tclserver.pojo.dto.result.DataResult;
-import org.sipc.tclserver.pojo.dto.result.GarbageAllResult;
-import org.sipc.tclserver.pojo.dto.result.VerifyResult;
-import org.sipc.tclserver.service.GarbageService;
+import lombok.RequiredArgsConstructor;
+import org.apache.dubbo.config.annotation.DubboReference;
+import org.sipc.controlserver.exection.DateBaseException;
+import org.sipc.controlserver.pojo.dto.CommonResult;
+import org.sipc.controlserver.pojo.dto.tcl.param.EditTrashParam;
+import org.sipc.controlserver.pojo.dto.tcl.param.GarbageAllParam;
+import org.sipc.controlserver.pojo.dto.tcl.param.VerifyParam;
+import org.sipc.controlserver.pojo.dto.tcl.result.DataResult;
+import org.sipc.controlserver.pojo.dto.tcl.result.GarbageAllResult;
+import org.sipc.controlserver.pojo.dto.tcl.result.VerifyResult;
+import org.sipc.controlserver.service.tcl.GarbageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,11 +20,12 @@ import org.springframework.web.bind.annotation.*;
  * @since 2023.10.02
  */
 @RestController
-@RequiredArgsConstructor(onConstructor_ = {@Autowired})
-@RequestMapping("/tcl/garbage")
+//@RequiredArgsConstructor(onConstructor_ = {@Autowired})
+@RequestMapping("/garbage")
 public class GarbageController {
 
-    private final GarbageService garbageService;
+    @DubboReference
+    private GarbageService garbageService;
 
     @GetMapping("/all")
     public CommonResult<GarbageAllResult> all(@RequestParam Integer type, @RequestParam Integer id) {
