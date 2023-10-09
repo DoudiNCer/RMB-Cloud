@@ -1,8 +1,8 @@
 package org.sipc.tclserver.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import org.apache.ibatis.annotations.Mapper;
 import org.sipc.tclserver.pojo.domain.LogSet;
+import org.apache.ibatis.annotations.Mapper;
 
 /**
  * <p>

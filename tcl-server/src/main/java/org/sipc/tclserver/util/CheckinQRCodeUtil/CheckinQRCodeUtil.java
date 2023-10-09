@@ -6,9 +6,9 @@ import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
+import org.sipc.tclserver.util.CheckinQRCodeUtil.pojo.QRPayloadPo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.sipc.tclserver.util.CheckinQRCodeUtil.pojo.QRPayloadPo;
 import org.sipc.tclserver.util.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -24,7 +24,6 @@ import java.util.Base64;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 /**
  * 签到二维码相关工具类
