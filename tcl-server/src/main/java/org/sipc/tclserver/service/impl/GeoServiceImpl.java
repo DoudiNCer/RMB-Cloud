@@ -2,6 +2,7 @@ package org.sipc.tclserver.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import lombok.RequiredArgsConstructor;
+import org.apache.dubbo.config.annotation.DubboService;
 import org.sipc.tclserver.common.Constant;
 import org.sipc.tclserver.mapper.DistrictMapper;
 import org.sipc.tclserver.mapper.MunicipalityMapper;
@@ -25,6 +26,7 @@ import java.util.List;
  * @since 2023.10.02
  */
 @Service
+@DubboService
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public class GeoServiceImpl implements GeoService {
 
