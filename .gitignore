@@ -39,3 +39,4 @@ build/
 .DS_Store
 
 /tcl-server/src/main/resources/application-local.yml
+/control-server/src/main/resources/application-local.yml

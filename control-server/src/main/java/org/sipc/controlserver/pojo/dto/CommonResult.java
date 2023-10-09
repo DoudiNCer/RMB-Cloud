@@ -1,10 +1,10 @@
-package org.sipc.tclserver.pojo.dto;
+package org.sipc.controlserver.pojo.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import org.sipc.tclserver.pojo.dto.resultEnum.ResultEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.sipc.tclserver.pojo.dto.resultEnum.ResultEnum;
 
 @Data
 @NoArgsConstructor

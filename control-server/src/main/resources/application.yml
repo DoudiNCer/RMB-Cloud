@@ -1,0 +1,15 @@
+server:
+  port: 38091
+
+spring:
+  application:
+    name: control-server
+  mvc:
+    converters:
+      preferred-json-mapper: jackson
+  profiles:
+    active: local
+  servlet:
+    multipart:
+      max-file-size: 200MB
+      max-request-size: 200MB
