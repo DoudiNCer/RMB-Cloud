@@ -40,7 +40,7 @@ import java.util.List;
  * @version v1.0
  * @since 2023.10.02
  */
-@Service
+//@Service
 @DubboService
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public class GarbageServiceImpl implements GarbageService {
@@ -138,7 +138,7 @@ public class GarbageServiceImpl implements GarbageService {
 
         Garbage garbage = new Garbage();
 
-        garbage.setContent(garbageAllParam.getContent());
+        garbage.setContent(garbageAllParam.getName());
         garbage.setProvinceId(province.getId());
         garbage.setMunicipalityId(municipality.getId());
         garbage.setDistrictId(district.getId());

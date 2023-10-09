@@ -14,6 +14,8 @@ public class EditTrashParam {
 
     private String name;
 
+    private Integer districtId;
+
     private String location;
 
     private Double latitude;

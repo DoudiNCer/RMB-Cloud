@@ -56,8 +56,8 @@ public class GarbageController {
     }
 
     @GetMapping("/data")
-    public CommonResult<DataResult> data(@RequestParam Integer districtId) {
-        return garbageService.data(districtId);
+    public CommonResult<DataResult> data(@RequestParam Integer garbageId) {
+        return garbageService.data(garbageId);
     }
 
     @GetMapping("/qrcode")

@@ -15,4 +15,8 @@ public class GeoResult {
 
    List<GeoPo> geoDates;
 
+   public GeoResult() {
+
+   }
+
 }

@@ -20,4 +20,8 @@ public class GeoPo {
 
     private List<GeoPo> geoPoList;
 
+    public GeoPo() {
+
+    }
+
 }
