@@ -29,6 +29,10 @@ public class CommonResult<T> {
         return new CommonResult<>(ResultEnum.SUCCESS.getCode(), message, null);
     }
 
+    public static <T> CommonResult<T> success(T data, int r) {
+        return new CommonResult<>(ResultEnum.SUCCESS.getCode(), ResultEnum.SUCCESS.getMessage(), data);
+    }
+
     /**
      * 返回成功结果
      *
