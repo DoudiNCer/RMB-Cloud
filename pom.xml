@@ -10,6 +10,7 @@
     <version>1.0-SNAPSHOT</version>
     <!--子模块-->
     <modules>
+        <module>user-server</module>
         <module>control-server</module>
         <module>tcl-server</module>
     </modules>
