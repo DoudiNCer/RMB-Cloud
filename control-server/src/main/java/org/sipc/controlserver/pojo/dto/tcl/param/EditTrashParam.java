@@ -1,4 +1,4 @@
-package org.sipc.tclserver.pojo.dto.param;
+package org.sipc.controlserver.pojo.dto.tcl.param;
 
 import lombok.Data;
 

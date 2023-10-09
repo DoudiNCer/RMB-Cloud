@@ -1,4 +1,4 @@
-package org.sipc.tclserver.pojo.dto.param;
+package org.sipc.controlserver.pojo.dto.tcl.result;
 
 import lombok.Data;
 
@@ -8,10 +8,11 @@ import lombok.Data;
  * @since 2023.10.04
  */
 @Data
-public class GarbageAllParam {
+public class GarbageInfoResult {
+
+    private Integer id;
 
     private String content;
 
-    private Integer districtId;
 
 }

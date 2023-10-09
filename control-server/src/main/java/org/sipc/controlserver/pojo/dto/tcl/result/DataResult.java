@@ -1,9 +1,10 @@
-package org.sipc.tclserver.pojo.dto.result;
+package org.sipc.controlserver.pojo.dto.tcl.result;
 
 import lombok.Data;
-import org.sipc.tclserver.pojo.dto.result.po.GarbageSortPo;
-import org.sipc.tclserver.pojo.dto.result.po.GarbageUsePo;
-import org.sipc.tclserver.pojo.dto.result.po.StatusPo;
+import org.sipc.controlserver.pojo.dto.tcl.result.po.GarbageSortPo;
+import org.sipc.controlserver.pojo.dto.tcl.result.po.GarbageUsePo;
+import org.sipc.controlserver.pojo.dto.tcl.result.po.StatusPo;
+
 
 import java.util.List;
 
