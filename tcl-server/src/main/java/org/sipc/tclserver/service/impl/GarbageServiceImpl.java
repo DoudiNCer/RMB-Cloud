@@ -15,13 +15,17 @@ import org.sipc.tclserver.pojo.domain.po.TypeNumPo;
 import org.sipc.tclserver.pojo.dto.CommonResult;
 import org.sipc.tclserver.pojo.dto.param.EditTrashParam;
 import org.sipc.tclserver.pojo.dto.param.GarbageAllParam;
+import org.sipc.tclserver.pojo.dto.param.VerifyParam;
 import org.sipc.tclserver.pojo.dto.result.DataResult;
 import org.sipc.tclserver.pojo.dto.result.GarbageAllResult;
+import org.sipc.tclserver.pojo.dto.result.VerifyResult;
 import org.sipc.tclserver.pojo.dto.result.po.GarbagePo;
 import org.sipc.tclserver.pojo.dto.result.po.GarbageSortPo;
 import org.sipc.tclserver.pojo.dto.result.po.GarbageUsePo;
 import org.sipc.tclserver.pojo.dto.result.po.StatusPo;
 import org.sipc.tclserver.service.GarbageService;
+import org.sipc.tclserver.util.CheckinQRCodeUtil.CheckinQRCodeUtil;
+import org.sipc.tclserver.util.CheckinQRCodeUtil.pojo.QRPayloadPo;
 import org.sipc.tclserver.util.TimeTransUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -51,6 +55,8 @@ public class GarbageServiceImpl implements GarbageService {
     private final GarbageMapper garbageMapper;
 
     private final GarbageRecordMapper garbageRecordMapper;
+
+    private final CheckinQRCodeUtil checkinQRCodeUtil;
 
     @Override
     public CommonResult<GarbageAllResult> all(Integer type, Integer id) {
@@ -318,5 +324,33 @@ public class GarbageServiceImpl implements GarbageService {
                 break;
         }
         garbageUsePoT.setUseNum(garbageUsePoT.getUseNum() + idNameTypeNumPo.getNum());
+    }
+
+    @Override
+    public CommonResult<String> getCheckinQRCode(Integer garbageId) {
+
+        String checkinQRCode = checkinQRCodeUtil.getCheckinQRCode(garbageId);
+
+        if (checkinQRCode == null) {
+            return CommonResult.fail("请求异常，请稍候再试");
+        }
+
+        return CommonResult.success(checkinQRCode, 1);
+    }
+
+    @Override
+    public CommonResult<VerifyResult> verifyQRCode(VerifyParam verifyParam) {
+
+        Integer garbageId = checkinQRCodeUtil.verifyQRCode(verifyParam.getQrCode());
+
+        if (garbageId == null) {
+            return CommonResult.fail("您请求的信息不存在");
+        }
+
+        VerifyResult verifyResult = new VerifyResult();
+
+        verifyResult.setGarbageId(garbageId);
+
+        return CommonResult.success(verifyResult);
     }
 }

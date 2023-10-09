@@ -5,8 +5,10 @@ import org.sipc.tclserver.exection.DateBaseException;
 import org.sipc.tclserver.pojo.dto.CommonResult;
 import org.sipc.tclserver.pojo.dto.param.EditTrashParam;
 import org.sipc.tclserver.pojo.dto.param.GarbageAllParam;
+import org.sipc.tclserver.pojo.dto.param.VerifyParam;
 import org.sipc.tclserver.pojo.dto.result.DataResult;
 import org.sipc.tclserver.pojo.dto.result.GarbageAllResult;
+import org.sipc.tclserver.pojo.dto.result.VerifyResult;
 import org.sipc.tclserver.service.GarbageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -54,5 +56,15 @@ public class GarbageController {
     @GetMapping("/data")
     public CommonResult<DataResult> data(@RequestParam Integer districtId) {
         return garbageService.data(districtId);
+    }
+
+    @GetMapping("/qrcode")
+    public CommonResult<String> getCheckinQRCode(@RequestParam Integer garbageId) {
+        return garbageService.getCheckinQRCode(garbageId);
+    }
+
+    @PostMapping("/verify")
+    public CommonResult<VerifyResult> verifyQRCode(@RequestBody VerifyParam verifyParam) {
+        return garbageService.verifyQRCode(verifyParam);
     }
 }
