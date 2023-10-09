@@ -10,6 +10,6 @@ import lombok.Data;
 @Data
 public class VerifyParam {
 
-    String qrCode;
+    private String qrCode;
 
 }

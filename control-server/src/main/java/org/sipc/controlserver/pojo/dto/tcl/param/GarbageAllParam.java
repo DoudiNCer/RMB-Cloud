@@ -10,8 +10,13 @@ import lombok.Data;
 @Data
 public class GarbageAllParam {
 
-    private String content;
+    private String name;
 
     private Integer districtId;
 
+    private String location;
+
+    private Double latitude;
+
+    private Double longitude;
 }
