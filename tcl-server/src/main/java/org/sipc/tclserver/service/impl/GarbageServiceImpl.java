@@ -142,6 +142,9 @@ public class GarbageServiceImpl implements GarbageService {
         garbage.setProvinceId(province.getId());
         garbage.setMunicipalityId(municipality.getId());
         garbage.setDistrictId(district.getId());
+        garbage.setLocation(garbageAllParam.getLocation());
+        garbage.setLatitude(BigDecimal.valueOf(garbageAllParam.getLatitude()));
+        garbage.setLongitude(BigDecimal.valueOf(garbageAllParam.getLongitude()));
         garbage.setGmtCreate(LocalDateTime.now());
         garbage.setGmtModified(LocalDateTime.now());
 
