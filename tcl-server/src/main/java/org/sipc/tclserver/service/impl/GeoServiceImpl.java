@@ -43,11 +43,11 @@ public class GeoServiceImpl implements GeoService {
         List<GeoPo> provincePoList = new ArrayList<>();
 
         //遍历寻找province信息
-        for (Province province : provinceMapper.selectList(new UpdateWrapper<Province>())) {
+        for (Province province : provinceMapper.selectList(new UpdateWrapper<>())) {
             GeoPo provincePo = new GeoPo();
 
-            provincePo.setId(provincePo.getId());
-            provincePo.setContent(provincePo.getContent());
+            provincePo.setId(province.getId());
+            provincePo.setContent(province.getContent());
             provincePo.setType(1);
 
             //存放municipality列表

@@ -14,10 +14,10 @@ import java.util.Map;
  */
 public class Constant {
 
-    public static Map<Integer, List<Integer>> provinceM;
+    public static Map<Integer, List<Integer>> provinceM = new HashMap<>();
 
-    public static Map<Integer, List<Integer>> municipalityD;
+    public static Map<Integer, List<Integer>> municipalityD = new HashMap<>();
 
-    public static Map<Integer, District> districtMap;
+    public static Map<Integer, District> districtMap = new HashMap<>();
 
 }

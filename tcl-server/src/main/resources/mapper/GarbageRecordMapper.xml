@@ -12,7 +12,7 @@
         select id as g.id, g.content as name, gr.type, count(gr.id) as num
         from garbage_record as gr
         left join garbage as g on g.id = gr.garbage_id
-        where gr.time &lt; #{lastTime,javaType=TIMESTAMP} and gr.time &gt; #{firstTime,javaType=TIMESTAMP}
+        where gr.time &lt; #{lastTime,jdbcType=TIMESTAMP} and gr.time &gt; #{firstTime,jdbcType=TIMESTAMP}
         group by gr.garbage_id
         order by gr.garbage_id
     </select>

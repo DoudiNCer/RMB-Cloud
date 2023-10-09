@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.sipc.tclserver.pojo.dto.resultEnum.ResultEnum;
+import org.sipc.controlserver.pojo.dto.resultEnum.ResultEnum;
 
 @Data
 @NoArgsConstructor
