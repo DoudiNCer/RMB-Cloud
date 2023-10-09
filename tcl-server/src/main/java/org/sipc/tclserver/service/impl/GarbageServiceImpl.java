@@ -1,6 +1,14 @@
 package org.sipc.tclserver.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import org.sipc.tclserver.common.Constant;
+import org.sipc.tclserver.mapper.*;
+import org.sipc.tclserver.pojo.domain.District;
+import org.sipc.tclserver.pojo.domain.Garbage;
+import org.sipc.tclserver.pojo.domain.Municipality;
+import org.sipc.tclserver.pojo.domain.Province;
+import org.sipc.tclserver.util.CheckinQRCodeUtil.CheckinQRCodeUtil;
+import org.sipc.tclserver.util.TimeTransUtil;
 import lombok.RequiredArgsConstructor;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.sipc.controlserver.exection.DateBaseException;
@@ -16,18 +24,11 @@ import org.sipc.controlserver.pojo.dto.tcl.result.po.GarbageSortPo;
 import org.sipc.controlserver.pojo.dto.tcl.result.po.GarbageUsePo;
 import org.sipc.controlserver.pojo.dto.tcl.result.po.StatusPo;
 import org.sipc.controlserver.service.tcl.GarbageService;
-import org.sipc.tclserver.common.Constant;
 import org.sipc.tclserver.mapper.*;
-import org.sipc.tclserver.pojo.domain.District;
-import org.sipc.tclserver.pojo.domain.Garbage;
-import org.sipc.tclserver.pojo.domain.Municipality;
-import org.sipc.tclserver.pojo.domain.Province;
+
 import org.sipc.tclserver.pojo.domain.po.IdNameTypeNumPo;
 import org.sipc.tclserver.pojo.domain.po.TypeNumPo;
-import org.sipc.tclserver.util.CheckinQRCodeUtil.CheckinQRCodeUtil;
-import org.sipc.tclserver.util.TimeTransUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
