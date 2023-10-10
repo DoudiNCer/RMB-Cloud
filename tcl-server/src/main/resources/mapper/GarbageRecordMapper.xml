@@ -6,14 +6,17 @@
         select type as type, sum(id) as num
         from garbage_record
         where district_id = #{districtId,javaType=INTEGER}
+          and is_deleted is null
         group by type
     </select>
     <select id="selectDetailsByDistrictId" resultType="org.sipc.tclserver.pojo.domain.po.IdNameTypeNumPo">
-        select id as g.id, g.content as name, gr.type, count(gr.id) as num
+        select g.id as id, g.content as name, gr.type as type, count(gr.id) as num
         from garbage_record as gr
         left join garbage as g on g.id = gr.garbage_id
-        where gr.time &lt; #{lastTime,jdbcType=TIMESTAMP} and gr.time &gt; #{firstTime,jdbcType=TIMESTAMP}
-        group by gr.garbage_id
+        where gr.district_id = #{districtId}
+          and gr.time &lt; #{lastTime} and gr.time &gt; #{firstTime}
+          and gr.is_deleted is null
+        group by gr.garbage_id, gr.type
         order by gr.garbage_id
     </select>
 </mapper>
