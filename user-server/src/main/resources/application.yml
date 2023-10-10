@@ -1,5 +1,5 @@
 server:
-  port: 9000
+  port: 38093
 
 localhost: 127.0.0.1
 
@@ -15,3 +15,12 @@ spring:
     nacos:
       server-addr: ${localhost}:8848
 
+dubbo:
+  application:
+    name: user-server
+    check-serializable: false
+  protocol:
+    name: dubbo # dubbo协议
+    port: 22201 # 协议端口
+  registry:
+    address: nacos://${localhost}:8848
