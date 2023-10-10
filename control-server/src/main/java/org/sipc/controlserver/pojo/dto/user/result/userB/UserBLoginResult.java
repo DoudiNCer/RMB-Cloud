@@ -1,11 +1,10 @@
-package org.sipc.userserver.pojo.dto.result.userC;
+package org.sipc.controlserver.pojo.dto.user.result.userB;
 
 import lombok.Data;
 
 @Data
-public class UserCLoginResult {
+public class UserBLoginResult {
     private Integer userId;
     private String username;
     private String token;
-    private Integer credit;
 }

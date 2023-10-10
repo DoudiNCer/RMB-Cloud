@@ -1,6 +1,6 @@
 package org.sipc.userserver.mapper;
 
-import org.sipc.userserver.pojo.domain.UserC;
+import org.sipc.userserver.pojo.domain.Gift;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -13,6 +13,6 @@ import org.apache.ibatis.annotations.Mapper;
  * @since 2023-10-07
  */
 @Mapper
-public interface UserCMapper extends BaseMapper<UserC> {
+public interface GiftMapper extends BaseMapper<Gift> {
 
 }

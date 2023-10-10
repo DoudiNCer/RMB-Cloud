@@ -1,4 +1,4 @@
-package org.sipc.userserver.pojo.dto.result.userC;
+package org.sipc.controlserver.pojo.dto.user.result.userC;
 
 import lombok.Data;
 

@@ -140,7 +140,6 @@ public class GarbageServiceImpl implements GarbageService {
         Garbage garbage = new Garbage();
 
         garbage.setContent(garbageAllParam.getName());
-        garbage.setStatus(0);
         garbage.setProvinceId(province.getId());
         garbage.setMunicipalityId(municipality.getId());
         garbage.setDistrictId(district.getId());
@@ -211,8 +210,6 @@ public class GarbageServiceImpl implements GarbageService {
 //            }
 //        }
         StatusPo statusPo = new StatusPo();
-        statusPo.setNormal(0);
-        statusPo.setFault(0);
         List<TypeNumPo> typeNumPos = garbageMapper.selectStatusNumByDistrictId(districtId);
         for (TypeNumPo typeNumPo : typeNumPos) {
             switch (typeNumPo.getType()) {

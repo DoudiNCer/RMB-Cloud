@@ -6,7 +6,6 @@
         select status as type, count(id) as num
         from garbage
         where district_id = #{districtId,jdbcType=INTEGER}
-            and is_deleted is null
         group by status
         order by status
     </select>
