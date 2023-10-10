@@ -13,7 +13,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/user/b")
+@RequestMapping("/user/c")
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public class UserCController {
     private final UserCService userCService;
@@ -24,12 +24,12 @@ public class UserCController {
     }
 
     @PostMapping("/regist")
-    public CommonResult<String> userBRRegister(@Validated @RequestParam UserCRegistParam param){
+    public CommonResult<String> userCRegister(@Validated @RequestParam UserCRegistParam param){
         return userCService.register(param);
     }
 
     @PostMapping("/varify")
-    public CommonResult<UserC> verifyBToken(@Validated @RequestParam CTokenVerifyParam param){
+    public CommonResult<UserC> verifyCToken(@Validated @RequestParam CTokenVerifyParam param){
         return userCService.verifyToken(param);
     }
 }

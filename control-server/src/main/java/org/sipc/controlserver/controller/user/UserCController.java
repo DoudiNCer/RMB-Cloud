@@ -10,19 +10,19 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/user/b")
+@RequestMapping("/user/c")
 //@RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public class UserCController {
     @DubboReference
     private UserCService userCService;
 
     @PostMapping("/login")
-    public CommonResult<UserCLoginResult> userBLogin(@Validated @RequestBody UserCLoginParam param){
+    public CommonResult<UserCLoginResult> userCLogin(@Validated @RequestBody UserCLoginParam param){
         return userCService.login(param);
     }
 
     @PostMapping("/regist")
-    public CommonResult<String> userBRRegister(@Validated @RequestParam UserCRegistParam param){
+    public CommonResult<String> userCRegister(@Validated @RequestParam UserCRegistParam param){
         return userCService.register(param);
     }
 }
