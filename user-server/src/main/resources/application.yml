@@ -1,26 +1,10 @@
 server:
   port: 38093
 
-localhost: 127.0.0.1
-
 spring:
   application:
     name: user-server
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://${localhost}/UserServer?useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8
-    username: root
-    password: root
-  cloud:
-    nacos:
-      server-addr: ${localhost}:8848
+  profiles:
+    active: local
 
-dubbo:
-  application:
-    name: user-server
-    check-serializable: false
-  protocol:
-    name: dubbo # dubbo协议
-    port: 22201 # 协议端口
-  registry:
-    address: nacos://${localhost}:8848
+

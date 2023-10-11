@@ -40,3 +40,4 @@ build/
 
 /tcl-server/src/main/resources/application-local.yml
 /control-server/src/main/resources/application-local.yml
+/user-server/src/main/resources/application-local.yml
