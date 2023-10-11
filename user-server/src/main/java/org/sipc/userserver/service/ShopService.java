@@ -1,10 +1,11 @@
 package org.sipc.userserver.service;
 
-import org.sipc.userserver.pojo.dto.CommonResult;
-import org.sipc.userserver.pojo.dto.param.shop.ConventGiftParam;
-import org.sipc.userserver.pojo.dto.param.shop.FinishOrderParam;
-import org.sipc.userserver.pojo.dto.result.shop.GetGiftsResult;
-import org.sipc.userserver.pojo.dto.result.shop.GetOrdersResult;
+
+import org.sipc.controlserver.pojo.dto.CommonResult;
+import org.sipc.controlserver.pojo.dto.user.param.shop.ConventGiftParam;
+import org.sipc.controlserver.pojo.dto.user.param.shop.FinishOrderParam;
+import org.sipc.controlserver.pojo.dto.user.result.shop.GetGiftsResult;
+import org.sipc.controlserver.pojo.dto.user.result.shop.GetOrdersResult;
 
 public interface ShopService {
 

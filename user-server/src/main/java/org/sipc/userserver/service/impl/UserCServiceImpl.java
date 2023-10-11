@@ -34,7 +34,7 @@ public class UserCServiceImpl implements UserCService {
      */
     @Override
     public CommonResult<UserCLoginResult> login(UserCLoginParam param) {
-        UserC user = userCMapper.selectOne(new QueryWrapper<UserC>().eq("user", param.getUsername()));
+        UserC user = userCMapper.selectOne(new QueryWrapper<UserC>().eq("name", param.getUsername()));
         if (user == null){
             return CommonResult.fail("用户名或密码错误");
         }
@@ -57,7 +57,7 @@ public class UserCServiceImpl implements UserCService {
      */
     @Override
     public CommonResult<String> register(UserCRegistParam param) {
-        UserC user = userCMapper.selectOne(new QueryWrapper<UserC>().eq("user", param.getUsername()));
+        UserC user = userCMapper.selectOne(new QueryWrapper<UserC>().eq("name", param.getUsername()));
         if (user != null){
             return CommonResult.fail("用户已存在");
         }
