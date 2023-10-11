@@ -1,6 +1,8 @@
 package org.sipc.userserver.pojo.domain;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import lombok.Getter;
@@ -24,7 +26,7 @@ public class Order implements Serializable {
     /**
      * 订单ID
      */
-    @TableField("id")
+    @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
     /**

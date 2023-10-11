@@ -32,7 +32,7 @@ public class UserBServiceImpl implements UserBService {
      */
     @Override
     public CommonResult<UserBLoginResult> login(UserBLoginParam param) {
-        UserB user = userBMapper.selectOne(new QueryWrapper<UserB>().eq("user", param.getUsername()));
+        UserB user = userBMapper.selectOne(new QueryWrapper<UserB>().eq("name", param.getUsername()));
         if (user == null){
             return CommonResult.fail("用户名或密码错误");
         }

@@ -22,7 +22,7 @@ public class UserCController {
     }
 
     @PostMapping("/regist")
-    public CommonResult<String> userCRegister(@Validated @RequestParam UserCRegistParam param){
+    public CommonResult<String> userCRegister(@Validated @RequestBody UserCRegistParam param){
         return userCService.register(param);
     }
 }

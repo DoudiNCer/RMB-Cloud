@@ -356,4 +356,9 @@ public class GarbageServiceImpl implements GarbageService {
 
         return CommonResult.success(verifyResult);
     }
+
+    @Override
+    public CommonResult<String> test() throws Exception {
+        throw new Exception("这是一个错误测试");
+    }
 }
