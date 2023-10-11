@@ -4,17 +4,20 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboService;
-import org.sipc.controlserver.pojo.dto.CommonResult;
-import org.sipc.controlserver.pojo.dto.user.param.shop.ConventGiftParam;
-import org.sipc.controlserver.pojo.dto.user.result.shop.GetGiftsResult;
-import org.sipc.controlserver.pojo.dto.user.result.shop.po.GetGiftsResultPo;
-import org.sipc.controlserver.service.user.ShopService;
 import org.sipc.userserver.mapper.GiftMapper;
 import org.sipc.userserver.mapper.OrderMapper;
 import org.sipc.userserver.mapper.UserCMapper;
 import org.sipc.userserver.pojo.domain.Gift;
 import org.sipc.userserver.pojo.domain.Order;
 import org.sipc.userserver.pojo.domain.UserC;
+import org.sipc.userserver.pojo.dto.CommonResult;
+import org.sipc.userserver.pojo.dto.param.shop.ConventGiftParam;
+import org.sipc.userserver.pojo.dto.param.shop.FinishOrderParam;
+import org.sipc.userserver.pojo.dto.result.shop.GetGiftsResult;
+import org.sipc.userserver.pojo.dto.result.shop.GetOrdersResult;
+import org.sipc.userserver.pojo.dto.result.shop.po.GetGiftsResultPo;
+import org.sipc.userserver.pojo.dto.result.shop.po.GetOrdersPo;
+import org.sipc.userserver.service.ShopService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -58,7 +61,6 @@ public class ShopServiceImpl implements ShopService {
      */
     @Override
     public CommonResult<String> conventGift(ConventGiftParam param) {
-
         UserC userC = userCMapper.selectById(param.getUserId());
         if (userC == null){
             return CommonResult.fail("用户不存在");
@@ -80,5 +82,38 @@ public class ShopServiceImpl implements ShopService {
         userC.setCredit(userC.getCredit() - gift.getCredit());
         userCMapper.updateById(userC);
         return CommonResult.success("请求成功");
+    }
+
+    /**
+     * 获取订单清单
+     *
+     * @return 订单清单
+     */
+    @Override
+    public CommonResult<GetOrdersResult> getOrders() {
+        List<GetOrdersPo> orders = orderMapper.getOrders();
+        GetOrdersResult result = new GetOrdersResult();
+        result.setOrders(orders);
+        return CommonResult.success(result);
+    }
+
+    /**
+     * 完成订单
+     *
+     * @param param 订单ID
+     * @return 处理情况
+     */
+    @Override
+    public CommonResult<String> finishOrder(FinishOrderParam param) {
+        Order order = orderMapper.selectById(param.getOrderId());
+        if (order == null){
+            return CommonResult.fail("订单不存在");
+        }
+        if (order.getFinished()){
+            return CommonResult.success("订单已完成");
+        }
+        order.setFinished(true);
+        orderMapper.updateById(order);
+        return CommonResult.success();
     }
 }
