@@ -23,7 +23,7 @@ public class ShopController {
     }
 
     @PostMapping("/convent")
-    public CommonResult<String> conventGift(@Validated @RequestParam ConventGiftParam param) {
+    public CommonResult<String> conventGift(@Validated @RequestBody ConventGiftParam param) {
         return shopService.conventGift(param);
     }
 
@@ -33,7 +33,7 @@ public class ShopController {
     }
 
     @PostMapping("/finish")
-    public CommonResult<String> finishOrder(@Validated @RequestParam FinishOrderParam param) {
+    public CommonResult<String> finishOrder(@Validated @RequestBody FinishOrderParam param) {
         return shopService.finishOrder(param);
     }
 }

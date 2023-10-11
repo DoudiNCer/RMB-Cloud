@@ -25,4 +25,6 @@ public interface GarbageService {
 
     CommonResult<VerifyResult> verifyQRCode(VerifyParam verifyParam);
 
+    CommonResult<String> test() throws Exception;
+
 }

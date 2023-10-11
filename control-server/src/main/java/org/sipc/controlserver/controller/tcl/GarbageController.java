@@ -72,6 +72,6 @@ public class GarbageController {
 
     @GetMapping("/test")
     public CommonResult<String> test() throws Exception {
-        throw new Exception("这是一个测试错误");
+        return garbageService.test();
     }
 }
