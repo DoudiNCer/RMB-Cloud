@@ -12,7 +12,7 @@ import lombok.Setter;
  * </p>
  *
  * @author DoudiNCer
- * @since 2023-10-07
+ * @since 2023-10-11
  */
 @Getter
 @Setter
@@ -56,4 +56,10 @@ public class Order implements Serializable {
      */
     @TableField("address")
     private String address;
+
+    /**
+     * 是否完成
+     */
+    @TableField("finished")
+    private Boolean finished;
 }

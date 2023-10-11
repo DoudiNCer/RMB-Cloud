@@ -2,7 +2,9 @@ package org.sipc.controlserver.service.user;
 
 import org.sipc.controlserver.pojo.dto.CommonResult;
 import org.sipc.controlserver.pojo.dto.user.param.shop.ConventGiftParam;
+import org.sipc.controlserver.pojo.dto.user.param.shop.FinishOrderParam;
 import org.sipc.controlserver.pojo.dto.user.result.shop.GetGiftsResult;
+import org.sipc.controlserver.pojo.dto.user.result.shop.GetOrdersResult;
 
 public interface ShopService {
 
@@ -20,4 +22,18 @@ public interface ShopService {
      * @return 兑换结果
      */
     CommonResult<String> conventGift(ConventGiftParam param);
+    /**
+     * 获取订单清单
+     *
+     * @return 订单清单
+     */
+    CommonResult<GetOrdersResult> getOrders();
+
+    /**
+     * 完成订单
+     *
+     * @param param 订单ID
+     * @return 处理情况
+     */
+    CommonResult<String> finishOrder(FinishOrderParam param);
 }
