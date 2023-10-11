@@ -56,8 +56,8 @@ public class GarbageController {
     }
 
     @GetMapping("/data")
-    public CommonResult<DataResult> data(@RequestParam Integer garbageId) {
-        return garbageService.data(garbageId);
+    public CommonResult<DataResult> data(@RequestParam Integer districtId) {
+        return garbageService.data(districtId);
     }
 
     @GetMapping("/qrcode")
@@ -68,5 +68,10 @@ public class GarbageController {
     @PostMapping("/verify")
     public CommonResult<VerifyResult> verifyQRCode(@RequestBody VerifyParam verifyParam) {
         return garbageService.verifyQRCode(verifyParam);
+    }
+
+    @GetMapping("/test")
+    public CommonResult<String> test() throws Exception {
+        throw new Exception("这是一个测试错误");
     }
 }
