@@ -3,14 +3,15 @@ package org.sipc.userserver.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.dubbo.config.annotation.DubboService;
+import org.sipc.controlserver.pojo.dto.CommonResult;
+import org.sipc.controlserver.pojo.dto.user.param.userC.CTokenVerifyParam;
+import org.sipc.controlserver.pojo.dto.user.param.userC.UserCLoginParam;
+import org.sipc.controlserver.pojo.dto.user.param.userC.UserCRegistParam;
+import org.sipc.controlserver.pojo.dto.user.result.userC.UserCLoginResult;
+import org.sipc.controlserver.service.user.UserCService;
 import org.sipc.userserver.mapper.UserCMapper;
 import org.sipc.userserver.pojo.domain.UserC;
-import org.sipc.userserver.pojo.dto.CommonResult;
-import org.sipc.userserver.pojo.dto.param.userC.CTokenVerifyParam;
-import org.sipc.userserver.pojo.dto.param.userC.UserCLoginParam;
-import org.sipc.userserver.pojo.dto.param.userC.UserCRegistParam;
-import org.sipc.userserver.pojo.dto.result.userC.UserCLoginResult;
-import org.sipc.userserver.service.UserCService;
 import org.sipc.userserver.util.CheckRoleUtil;
 import org.sipc.userserver.util.PasswordUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ import java.util.Objects;
 @Service
 @Slf4j
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
+@DubboService
 public class UserCServiceImpl implements UserCService {
 
     private final UserCMapper userCMapper;
@@ -63,8 +65,9 @@ public class UserCServiceImpl implements UserCService {
         user.setName(param.getUsername());
         user.setPassword(PasswordUtil.getCPassword(param.getPassword()));
         userCMapper.insert(user);
-        return CommonResult.success();
+        return CommonResult.success("请求成功");
     }
+
 
     /**
      * B 端 Token 校验
@@ -72,17 +75,17 @@ public class UserCServiceImpl implements UserCService {
      * @param param Token
      * @return 用户信息
      */
-    @Override
-    public CommonResult<UserC> verifyToken(CTokenVerifyParam param) {
-        UserC userC = CheckRoleUtil.verifyCToken(param.getToken());
-        if (userC == null){
-            return CommonResult.userAuthError();
-        }
-        UserC userC1 = userCMapper.selectById(userC.getId());
-        if (!Objects.equals(userC1.getName(), userC.getName())){
-            return CommonResult.userAuthError();
-        }
-        userC.setCredit(userC1.getCredit());
-        return CommonResult.success(userC);
-    }
+//    @Override
+//    public CommonResult<UserC> verifyToken(CTokenVerifyParam param) {
+//        UserC userC = CheckRoleUtil.verifyCToken(param.getToken());
+//        if (userC == null){
+//            return CommonResult.userAuthError();
+//        }
+//        UserC userC1 = userCMapper.selectById(userC.getId());
+//        if (!Objects.equals(userC1.getName(), userC.getName())){
+//            return CommonResult.userAuthError();
+//        }
+//        userC.setCredit(userC1.getCredit());
+//        return CommonResult.success(userC);
+//    }
 }

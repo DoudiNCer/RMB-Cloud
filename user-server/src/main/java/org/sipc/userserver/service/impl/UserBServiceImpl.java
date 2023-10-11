@@ -3,13 +3,13 @@ package org.sipc.userserver.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.dubbo.config.annotation.DubboService;
+import org.sipc.controlserver.pojo.dto.CommonResult;
+import org.sipc.controlserver.pojo.dto.user.param.userB.UserBLoginParam;
+import org.sipc.controlserver.pojo.dto.user.result.userB.UserBLoginResult;
+import org.sipc.controlserver.service.user.UserBService;
 import org.sipc.userserver.mapper.UserBMapper;
 import org.sipc.userserver.pojo.domain.UserB;
-import org.sipc.userserver.pojo.dto.CommonResult;
-import org.sipc.userserver.pojo.dto.param.userB.BTokenVerifyParam;
-import org.sipc.userserver.pojo.dto.param.userB.UserBLoginParam;
-import org.sipc.userserver.pojo.dto.result.userB.UserBLoginResult;
-import org.sipc.userserver.service.UserBService;
 import org.sipc.userserver.util.CheckRoleUtil;
 import org.sipc.userserver.util.PasswordUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +20,7 @@ import java.util.Objects;
 @Service
 @Slf4j
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
+@DubboService
 public class UserBServiceImpl implements UserBService {
 
     private final UserBMapper userBMapper;
@@ -51,16 +52,17 @@ public class UserBServiceImpl implements UserBService {
      * @param param Token
      * @return 用户信息
      */
-    @Override
-    public CommonResult<UserB> verifyToken(BTokenVerifyParam param) {
-        UserB userB = CheckRoleUtil.verifyBToken(param.getToken());
-        if (userB == null){
-            return CommonResult.userAuthError();
-        }
-        UserB userB1 = userBMapper.selectById(userB.getId());
-        if (!Objects.equals(userB1.getName(), userB.getName())){
-            return CommonResult.userAuthError();
-        }
-        return CommonResult.success(userB);
-    }
+//    @Override
+//    public CommonResult<UserB> verifyToken(BTokenVerifyParam param) {
+//        UserB userB = CheckRoleUtil.verifyBToken(param.getToken());
+//        if (userB == null){
+//            return CommonResult.userAuthError();
+//        }
+//        UserB userB1 = userBMapper.selectById(userB.getId());
+//        if (!Objects.equals(userB1.getName(), userB.getName())){
+//            return CommonResult.userAuthError();
+//        }
+//        return CommonResult.success(userB);
+//    }
+
 }

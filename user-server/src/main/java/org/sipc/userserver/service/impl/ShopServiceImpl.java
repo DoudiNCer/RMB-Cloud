@@ -3,17 +3,18 @@ package org.sipc.userserver.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.dubbo.config.annotation.DubboService;
+import org.sipc.controlserver.pojo.dto.CommonResult;
+import org.sipc.controlserver.pojo.dto.user.param.shop.ConventGiftParam;
+import org.sipc.controlserver.pojo.dto.user.result.shop.GetGiftsResult;
+import org.sipc.controlserver.pojo.dto.user.result.shop.po.GetGiftsResultPo;
+import org.sipc.controlserver.service.user.ShopService;
 import org.sipc.userserver.mapper.GiftMapper;
 import org.sipc.userserver.mapper.OrderMapper;
 import org.sipc.userserver.mapper.UserCMapper;
 import org.sipc.userserver.pojo.domain.Gift;
 import org.sipc.userserver.pojo.domain.Order;
 import org.sipc.userserver.pojo.domain.UserC;
-import org.sipc.userserver.pojo.dto.CommonResult;
-import org.sipc.userserver.pojo.dto.param.shop.ConventGiftParam;
-import org.sipc.userserver.pojo.dto.result.shop.GetGiftsResult;
-import org.sipc.userserver.pojo.dto.result.shop.po.GetGiftsResultPo;
-import org.sipc.userserver.service.ShopService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +24,7 @@ import java.util.List;
 @Service
 @Slf4j
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
+@DubboService
 public class ShopServiceImpl implements ShopService {
     private final GiftMapper giftMapper;
     private final OrderMapper orderMapper;
@@ -56,6 +58,7 @@ public class ShopServiceImpl implements ShopService {
      */
     @Override
     public CommonResult<String> conventGift(ConventGiftParam param) {
+
         UserC userC = userCMapper.selectById(param.getUserId());
         if (userC == null){
             return CommonResult.fail("用户不存在");
@@ -76,6 +79,6 @@ public class ShopServiceImpl implements ShopService {
         orderMapper.insert(order);
         userC.setCredit(userC.getCredit() - gift.getCredit());
         userCMapper.updateById(userC);
-        return CommonResult.success();
+        return CommonResult.success("请求成功");
     }
 }
