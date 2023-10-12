@@ -19,7 +19,7 @@ import java.util.Date;
  *
  * @author DoudiNCer
  */
-@Component
+//@Component
 @Slf4j
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public class MinioUtil {

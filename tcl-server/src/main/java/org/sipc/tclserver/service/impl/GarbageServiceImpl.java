@@ -1,12 +1,11 @@
 package org.sipc.tclserver.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import org.sipc.controlserver.pojo.dto.tcl.result.*;
+import org.sipc.controlserver.pojo.dto.tcl.result.po.*;
 import org.sipc.tclserver.common.Constant;
 import org.sipc.tclserver.mapper.*;
-import org.sipc.tclserver.pojo.domain.District;
-import org.sipc.tclserver.pojo.domain.Garbage;
-import org.sipc.tclserver.pojo.domain.Municipality;
-import org.sipc.tclserver.pojo.domain.Province;
+import org.sipc.tclserver.pojo.domain.*;
 import org.sipc.tclserver.util.CheckinQRCodeUtil.CheckinQRCodeUtil;
 import org.sipc.tclserver.util.TimeTransUtil;
 import lombok.RequiredArgsConstructor;
@@ -16,25 +15,30 @@ import org.sipc.controlserver.pojo.dto.CommonResult;
 import org.sipc.controlserver.pojo.dto.tcl.param.EditTrashParam;
 import org.sipc.controlserver.pojo.dto.tcl.param.GarbageAllParam;
 import org.sipc.controlserver.pojo.dto.tcl.param.VerifyParam;
-import org.sipc.controlserver.pojo.dto.tcl.result.DataResult;
-import org.sipc.controlserver.pojo.dto.tcl.result.GarbageAllResult;
-import org.sipc.controlserver.pojo.dto.tcl.result.VerifyResult;
-import org.sipc.controlserver.pojo.dto.tcl.result.po.GarbagePo;
-import org.sipc.controlserver.pojo.dto.tcl.result.po.GarbageSortPo;
-import org.sipc.controlserver.pojo.dto.tcl.result.po.GarbageUsePo;
-import org.sipc.controlserver.pojo.dto.tcl.result.po.StatusPo;
 import org.sipc.controlserver.service.tcl.GarbageService;
 import org.sipc.tclserver.mapper.*;
 
 import org.sipc.tclserver.pojo.domain.po.IdNameTypeNumPo;
 import org.sipc.tclserver.pojo.domain.po.TypeNumPo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author tzih
@@ -360,5 +364,148 @@ public class GarbageServiceImpl implements GarbageService {
     @Override
     public CommonResult<String> test() throws Exception {
         throw new Exception("这是一个错误测试");
+    }
+
+    @Override
+    public CommonResult<InfoResult> info(Integer garbageId) {
+
+        Garbage garbage = garbageMapper.selectById(garbageId);
+
+        if (garbage == null) {
+            return CommonResult.fail("garbageId错误，该垃圾桶不存在");
+        }
+
+        List<RecordPo> recordPoList = new LinkedList<>();
+
+        for (GarbageRecord garbageRecord : garbageRecordMapper.selectList(
+                new UpdateWrapper<GarbageRecord>().eq("garbage_id", garbageId)
+        )) {
+            RecordPo recordPo = new RecordPo();
+
+            recordPo.setId(garbageRecord.getId());
+            recordPo.setUrl(garbageRecord.getUrl());
+            recordPo.setType(garbageRecord.getType());
+            recordPo.setTime(TimeTransUtil.tranStringDay(garbageRecord.getTime()));
+
+            recordPoList.add(recordPo);
+        }
+
+        InfoResult result = new InfoResult();
+
+        result.setName(garbage.getContent());
+        result.setRecordPoList(recordPoList);
+
+        return CommonResult.success(result);
+    }
+
+    @Override
+    public CommonResult<UploadResult> identify(MultipartFile file) {
+
+        // 检查文件是否为空
+        if (file.isEmpty()) {
+//            return ResponseEntity.badRequest().body("Please select a file to upload.");
+            return CommonResult.fail("传参错误，图片不存在");
+        }
+
+        UploadResult result = new UploadResult();
+        try {
+            result = work(file);
+        } catch (Exception e) {
+            System.out.println("出异常了");
+        }
+        // 在实际应用中，您可以将文件保存到服务器或进行其他操作
+        // 这里只是简单地返回一个成功响应
+//        return ResponseEntity.ok("File uploaded successfully: " + file.getOriginalFilename());
+        if (result != null) {
+            return CommonResult.success(result);
+        } else {
+            return CommonResult.fail("请求错误，请稍后再试");
+        }
+
+    }
+
+    private UploadResult work(MultipartFile multipartFile) throws Exception {
+
+        if (multipartFile == null) {
+            return null;
+        }
+
+        // 创建一个RestTemplate实例
+        RestTemplate restTemplate = new RestTemplate();
+
+//        // 设置文件路径
+//        String filePath = "/path/to/your/file.txt";
+
+        // 创建HTTP头部
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+
+        // 创建HTTP请求实体
+        MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
+
+//        File file = new File(Objects.requireNonNull(multipartFile.getOriginalFilename())); // 创建临时文件
+//        multipartFile.transferTo(file); // 将MultipartFile的内容写入文件
+
+        // 将MultipartFile的内容读取为字节数组
+//        byte[] fileBytes = multipartFile.getBytes();
+
+        File file = multipartFileToFile(multipartFile);
+        if (file != null) {
+            body.add("file", new FileSystemResource(file));
+        }
+
+        HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
+
+        // 设置目标服务器的URL
+        String serverUrl = "http://127.0.0.1:5000/upload"; // 服务器的地址
+
+        // 发送文件上传请求
+        ResponseEntity<UploadResult> response = restTemplate.postForEntity(serverUrl, requestEntity, UploadResult.class);
+
+        System.out.println(Objects.requireNonNull(response.getBody()).getUrl() + "\n" + Arrays.toString(response.getBody().getList().toArray()));
+        // 处理响应
+        if (response.getStatusCode().is2xxSuccessful()) {
+            System.out.println("File uploaded successfully.");
+        } else {
+            System.err.println("File upload failed with status code: " + response.getStatusCodeValue());
+        }
+
+        return response.getBody();
+    }
+
+
+    private File multipartFileToFile(MultipartFile file) throws Exception {
+
+        File toFile = null;
+        if (file.isEmpty() || file.getSize() <= 0) {
+            return null;
+        } else {
+            InputStream ins = null;
+            ins = file.getInputStream();
+            toFile = new File(Objects.requireNonNull(file.getOriginalFilename()));
+//            inputStreamToFile(ins, toFile);
+            copyInputStreamToFile(ins, toFile);
+            ins.close();
+        }
+        return toFile;
+    }
+
+    private void copyInputStreamToFile(InputStream inputStream, File file)
+            throws IOException {
+
+        try (FileOutputStream outputStream = new FileOutputStream(file)) {
+
+            int read;
+            byte[] bytes = new byte[1024];
+
+            while ((read = inputStream.read(bytes)) != -1) {
+                outputStream.write(bytes, 0, read);
+            }
+
+            // commons-io
+            //IOUtils.copy(inputStream, outputStream);
+
+        }
+
     }
 }
