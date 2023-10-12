@@ -7,12 +7,11 @@ import org.sipc.controlserver.pojo.dto.CommonResult;
 import org.sipc.controlserver.pojo.dto.tcl.param.EditTrashParam;
 import org.sipc.controlserver.pojo.dto.tcl.param.GarbageAllParam;
 import org.sipc.controlserver.pojo.dto.tcl.param.VerifyParam;
-import org.sipc.controlserver.pojo.dto.tcl.result.DataResult;
-import org.sipc.controlserver.pojo.dto.tcl.result.GarbageAllResult;
-import org.sipc.controlserver.pojo.dto.tcl.result.VerifyResult;
+import org.sipc.controlserver.pojo.dto.tcl.result.*;
 import org.sipc.controlserver.service.tcl.GarbageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * @author tzih
@@ -73,5 +72,15 @@ public class GarbageController {
     @GetMapping("/test")
     public CommonResult<String> test() throws Exception {
         return garbageService.test();
+    }
+
+    @GetMapping("/info")
+    public CommonResult<InfoResult> info(@RequestParam Integer garbageId) {
+        return garbageService.info(garbageId);
+    }
+
+    @PostMapping("/identify")
+    public CommonResult<UploadResult> identify(@RequestParam("file") MultipartFile file) {
+        return garbageService.identify(file);
     }
 }

@@ -3,6 +3,8 @@ package org.sipc.controlserver.service.user;
 import org.sipc.controlserver.pojo.dto.CommonResult;
 import org.sipc.controlserver.pojo.dto.user.param.userC.UserCLoginParam;
 import org.sipc.controlserver.pojo.dto.user.param.userC.UserCRegistParam;
+import org.sipc.controlserver.pojo.dto.user.result.userC.CreditResult;
+import org.sipc.controlserver.pojo.dto.user.result.userC.SearchResult;
 import org.sipc.controlserver.pojo.dto.user.result.userC.UserCLoginResult;
 
 public interface UserCService {
@@ -21,4 +23,8 @@ public interface UserCService {
      * @return 注册结果
      */
     CommonResult<String> register(UserCRegistParam param);
+
+    CommonResult<SearchResult> search(String content);
+
+    CommonResult<CreditResult> credit(Integer userId);
 }

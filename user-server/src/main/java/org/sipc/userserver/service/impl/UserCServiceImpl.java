@@ -8,9 +8,13 @@ import org.sipc.controlserver.pojo.dto.CommonResult;
 import org.sipc.controlserver.pojo.dto.user.param.userC.CTokenVerifyParam;
 import org.sipc.controlserver.pojo.dto.user.param.userC.UserCLoginParam;
 import org.sipc.controlserver.pojo.dto.user.param.userC.UserCRegistParam;
+import org.sipc.controlserver.pojo.dto.user.result.userC.CreditResult;
+import org.sipc.controlserver.pojo.dto.user.result.userC.SearchResult;
 import org.sipc.controlserver.pojo.dto.user.result.userC.UserCLoginResult;
 import org.sipc.controlserver.service.user.UserCService;
+import org.sipc.userserver.mapper.GarbageSortMapper;
 import org.sipc.userserver.mapper.UserCMapper;
+import org.sipc.userserver.pojo.domain.GarbageSort;
 import org.sipc.userserver.pojo.domain.UserC;
 import org.sipc.userserver.util.CheckRoleUtil;
 import org.sipc.userserver.util.PasswordUtil;
@@ -26,6 +30,8 @@ import java.util.Objects;
 public class UserCServiceImpl implements UserCService {
 
     private final UserCMapper userCMapper;
+
+    private final GarbageSortMapper garbageSortMapper;
     /**
      * B 端用户登录
      *
@@ -69,12 +75,12 @@ public class UserCServiceImpl implements UserCService {
     }
 
 
-    /**
-     * B 端 Token 校验
-     *
-     * @param param Token
-     * @return 用户信息
-     */
+//    /**
+//     * B 端 Token 校验
+//     *
+//     * @param param Token
+//     * @return 用户信息
+//     */
 //    @Override
 //    public CommonResult<UserC> verifyToken(CTokenVerifyParam param) {
 //        UserC userC = CheckRoleUtil.verifyCToken(param.getToken());
@@ -88,4 +94,36 @@ public class UserCServiceImpl implements UserCService {
 //        userC.setCredit(userC1.getCredit());
 //        return CommonResult.success(userC);
 //    }
+
+
+    @Override
+    public CommonResult<SearchResult> search(String content) {
+
+        GarbageSort garbageSort = garbageSortMapper.selectOne(new QueryWrapper<GarbageSort>().like("content", content).last("limit 1"));
+
+        SearchResult result = new SearchResult();
+
+        if (garbageSort != null) {
+            result.setType(garbageSort.getType());
+        } else {
+            result.setType(0);
+        }
+
+        return CommonResult.success(result);
+    }
+
+    @Override
+    public CommonResult<CreditResult> credit(Integer userId) {
+
+        UserC userC = userCMapper.selectById(userId);
+        if (userC == null) {
+            return CommonResult.fail("用户不存在");
+        }
+
+        CreditResult result = new CreditResult();
+
+        result.setCredit(userC.getCredit());
+
+        return CommonResult.success(result);
+    }
 }
