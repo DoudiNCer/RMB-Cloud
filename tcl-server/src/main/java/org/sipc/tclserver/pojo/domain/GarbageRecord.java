@@ -55,6 +55,9 @@ public class GarbageRecord implements Serializable {
     @TableField("content")
     private String content;
 
+    @TableField("url")
+    private String url;
+
     /**
      * 投递时间
      */

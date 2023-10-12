@@ -2,6 +2,7 @@ package org.sipc.controlserver.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
 /**
@@ -21,7 +22,12 @@ public class RestTemplateConfig {
      */
     @Bean
     public RestTemplate restTemplate() {
-        return new RestTemplate();
+
+        HttpComponentsClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory();
+        requestFactory.setConnectTimeout(10*1000);
+        requestFactory.setReadTimeout(10*1000);
+
+        return new RestTemplate(requestFactory);
     }
 
 }
