@@ -18,6 +18,6 @@ import java.util.List;
  */
 @Mapper
 public interface OrderMapper extends BaseMapper<Order> {
-    @Select(value = {"SELECT o.id, o.address, o.phone, o.receiver, o.finished, u.`name` AS 'user', g.`name` AS 'gift' FROM `order` o LEFT JOIN gift g ON o.gift_id = g.id LEFT JOIN user_c u ON o.user_id = u.id"})
+    @Select(value = {"SELECT o.id, o.address, o.phone, o.receiver, o.finished, u.`name` AS 'user', g.`name` AS 'gift' FROM `order` o LEFT JOIN gift g ON o.gift_id = g.id LEFT JOIN user_c u ON o.user_id = u.id WHERE o.finished != 1"})
     List<GetOrdersPo> getOrders();
 }
