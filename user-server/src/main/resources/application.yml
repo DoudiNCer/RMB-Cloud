@@ -1,0 +1,14 @@
+server:
+  port: 38093
+
+spring:
+  application:
+    name: user-server
+  profiles:
+    active: local
+
+
+
+logging:
+  level:
+    org.sipc.userserver.mapper: debug

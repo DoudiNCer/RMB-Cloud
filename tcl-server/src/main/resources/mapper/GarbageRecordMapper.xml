@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.sipc.tclserver.mapper.GarbageRecordMapper">
+
+    <select id="selectUseNumByDistrictId" resultType="org.sipc.tclserver.pojo.domain.po.TypeNumPo">
+        select type as type, sum(id) as num
+        from garbage_record
+        where district_id = #{districtId,javaType=INTEGER}
+            and gr.is_deleted is null
+        group by type
+    </select>
+    <select id="selectDetailsByDistrictId" resultType="org.sipc.tclserver.pojo.domain.po.IdNameTypeNumPo">
+        select g.id as id, g.content as name, gr.type as type, count(gr.id) as num
+        from garbage_record as gr
+        left join garbage as g on g.id = gr.garbage_id
+        where gr.district_id = #{districtId}
+            and gr.time &lt; #{lastTime} and gr.time &gt; #{firstTime}
+            and gr.is_deleted is null
+        group by gr.garbage_id, gr.type
+        order by gr.garbage_id
+    </select>
+</mapper>

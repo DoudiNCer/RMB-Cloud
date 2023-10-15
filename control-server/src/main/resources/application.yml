@@ -1,0 +1,22 @@
+server:
+  port: 38091
+
+spring:
+  application:
+    name: control-server
+  mvc:
+    converters:
+      preferred-json-mapper: jackson
+  profiles:
+    active: local
+  servlet:
+    multipart:
+      max-file-size: 200MB
+      max-request-size: 200MB
+
+minio:
+  endpoint: http://127.0.0.1:9000 #Minio服务所在地址
+  bucketName: rmb #存储桶名称
+  accessKey: rmb #访问的key
+  secretKey: rmbminiopass #访问的秘钥
+  publicAddress: http://127.0.0.1:80 # 不含多余/的协议+域名
