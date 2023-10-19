@@ -56,4 +56,8 @@ public class CommonResult<T> {
     public static <T> CommonResult<T> userAuthError() {
         return new CommonResult<>(ResultEnum.AUTH_ERROR.getCode(), ResultEnum.AUTH_ERROR.getMessage(), null);
     }
+
+    public static CommonResult<String> success() {
+        return new CommonResult<>(ResultEnum.SUCCESS.getCode(), ResultEnum.SUCCESS.getMessage(), null);
+    }
 }
