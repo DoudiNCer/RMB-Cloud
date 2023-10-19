@@ -1,6 +1,7 @@
 package org.sipc.userserver.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboService;
@@ -125,5 +126,29 @@ public class UserCServiceImpl implements UserCService {
         result.setCredit(userC.getCredit());
 
         return CommonResult.success(result);
+    }
+
+    @Override
+    public CommonResult<String> addPoints(Integer userId, Integer points) {
+
+
+
+        UserC userC = userCMapper.selectById(userId);
+        if (userC == null) {
+            return CommonResult.fail("用户不存在，请求失败");
+        }
+        if (userC.getCredit() == null) {
+            userC.setCredit(0);
+        }
+        int updateNum = userCMapper.update(new UserC(),
+                new UpdateWrapper<UserC>()
+                        .eq("id", userId)
+                        .set("credit", userC.getCredit() + 1)
+        );
+        if (updateNum != 1) {
+            return CommonResult.fail("请求失败");
+        } else {
+            return CommonResult.success("请求成功");
+        }
     }
 }

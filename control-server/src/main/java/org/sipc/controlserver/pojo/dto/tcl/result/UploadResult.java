@@ -16,4 +16,8 @@ public class UploadResult {
 
     private List<String> list;
 
+    public UploadResult() {
+
+    }
+
 }
