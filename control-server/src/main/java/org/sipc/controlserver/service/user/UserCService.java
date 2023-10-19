@@ -27,4 +27,6 @@ public interface UserCService {
     CommonResult<SearchResult> search(String content);
 
     CommonResult<CreditResult> credit(Integer userId);
+
+    CommonResult<String> addPoints(Integer userId, Integer points);
 }
