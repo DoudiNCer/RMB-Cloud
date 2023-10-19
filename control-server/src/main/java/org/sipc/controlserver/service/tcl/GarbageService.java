@@ -28,6 +28,8 @@ public interface GarbageService {
 
     CommonResult<InfoResult> info(Integer garbageId);
 
-    CommonResult<UploadResult> identify(MultipartFile file);
+    CommonResult<UploadResult> identify(Integer garbageId, Integer userId, String url, String strType);
+
+    Boolean isGarbage(Integer garbageId);
 
 }
