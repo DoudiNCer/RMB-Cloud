@@ -1,8 +1,11 @@
 package org.sipc.tclserver.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import org.apache.dubbo.config.annotation.DubboReference;
+import org.sipc.controlserver.pojo.dto.resultEnum.ResultEnum;
 import org.sipc.controlserver.pojo.dto.tcl.result.*;
 import org.sipc.controlserver.pojo.dto.tcl.result.po.*;
+import org.sipc.controlserver.service.user.UserCService;
 import org.sipc.tclserver.common.Constant;
 import org.sipc.tclserver.mapper.*;
 import org.sipc.tclserver.pojo.domain.*;
@@ -61,6 +64,9 @@ public class GarbageServiceImpl implements GarbageService {
     private final GarbageRecordMapper garbageRecordMapper;
 
     private final CheckinQRCodeUtil checkinQRCodeUtil;
+
+    @DubboReference
+    private UserCService userCService;
 
     @Override
     public CommonResult<GarbageAllResult> all(Integer type, Integer id) {
@@ -399,25 +405,77 @@ public class GarbageServiceImpl implements GarbageService {
     }
 
     @Override
-    public CommonResult<UploadResult> identify(MultipartFile file) {
+    public CommonResult<UploadResult> identify(Integer garbageId, Integer userId, String url, String strType) {
 
-        // 检查文件是否为空
-        if (file.isEmpty()) {
-//            return ResponseEntity.badRequest().body("Please select a file to upload.");
-            return CommonResult.fail("传参错误，图片不存在");
+//        // 检查文件是否为空
+//        if (file.isEmpty()) {
+////            return ResponseEntity.badRequest().body("Please select a file to upload.");
+//            return CommonResult.fail("传参错误，图片不存在");
+//        }
+//
+        Garbage garbage = garbageMapper.selectById(garbageId);
+        if (garbage == null) {
+            return CommonResult.fail("垃圾桶不存在");
         }
 
-        UploadResult result = new UploadResult();
-        try {
-            result = work(file);
-        } catch (Exception e) {
-            System.out.println("出异常了");
-        }
+//        UploadResult result = new UploadResult();
+//        try {
+//            result = work(file);
+//        } catch (Exception e) {
+//            System.out.println("出异常了");
+//        }
         // 在实际应用中，您可以将文件保存到服务器或进行其他操作
         // 这里只是简单地返回一个成功响应
 //        return ResponseEntity.ok("File uploaded successfully: " + file.getOriginalFilename());
-        if (result != null) {
-            return CommonResult.success(result);
+        if (url != null) {
+
+            GarbageRecord garbageRecord = new GarbageRecord();
+
+            garbageRecord.setDistrictId(garbage.getDistrictId());
+            garbageRecord.setGarbageId(garbageId);
+            garbageRecord.setUserId(userId);
+            if (strType != null) {
+                switch (strType) {
+                    case "可回收垃圾":
+                        garbageRecord.setType(1);
+                        break;
+                    case "其他垃圾":
+                        garbageRecord.setType(2);
+                        break;
+                    case "有害垃圾":
+                        garbageRecord.setType(3);
+                        break;
+                    case "厨余垃圾":
+                        garbageRecord.setType(4);
+                        break;
+                    default:
+                        garbageRecord.setType(0);
+                        break;
+                }
+            } else {
+                garbageRecord.setType(0);
+            }
+
+            garbageRecord.setContent("");
+            garbageRecord.setUrl(url);
+            garbageRecord.setTime(LocalDateTime.now());
+            garbageRecord.setGmtCreate(LocalDateTime.now());
+            garbageRecord.setGmtModified(LocalDateTime.now());
+
+            int insertNum = garbageRecordMapper.insert(garbageRecord);
+            if (insertNum != 1) {
+                return CommonResult.fail("请求失败");
+            }
+
+            CommonResult<String> stringCommonResult = userCService.addPoints(userId, 1);
+
+            if (!stringCommonResult.getCode().equals(ResultEnum.SUCCESS.getCode())) {
+                return CommonResult.fail("请求失败");
+            }
+
+//            UploadResult result = new UploadResult();
+
+            return CommonResult.success(null);
         } else {
             return CommonResult.fail("请求错误，请稍后再试");
         }
@@ -507,5 +565,13 @@ public class GarbageServiceImpl implements GarbageService {
 
         }
 
+    }
+
+    @Override
+    public Boolean isGarbage(Integer garbageId) {
+
+        Garbage garbage = garbageMapper.selectById(garbageId);
+
+        return garbage != null;
     }
 }
