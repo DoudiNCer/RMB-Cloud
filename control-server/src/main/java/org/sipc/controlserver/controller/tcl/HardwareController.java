@@ -1,7 +1,6 @@
 package org.sipc.controlserver.controller.tcl;
 
 import org.apache.http.entity.ContentType;
-import org.sipc.controlserver.controller.WebSockerController;
 import org.sipc.controlserver.pojo.dto.CommonResult;
 import org.sipc.controlserver.pojo.dto.resultEnum.ResultEnum;
 import org.sipc.controlserver.pojo.dto.tcl.param.UploadPhotoParam;
@@ -46,7 +45,7 @@ public class HardwareController {
         }
         CommonResult<UploadResult> identify = null;
         try {
-            identify = garbageController.identify(1, 1, file);
+            identify = garbageController.identify(1, null, file);
         } catch (Exception ignored) {
 
         }

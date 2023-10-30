@@ -23,7 +23,7 @@ public class LarkAop {
     private LarkRobot larkRobot;
 
     //定义所有在controller包里及其子包里的任意类的任意方法
-    @Pointcut("execution(* *..controller..*.*(..))")
+    @Pointcut("execution(* *..controller..*.*(..)) && !within(org.sipc.controlserver.config.WebSocketConfig) && !within(org.sipc.controlserver.controller.tcl.WebSockerController)")
     public void lark() {
 
     }
