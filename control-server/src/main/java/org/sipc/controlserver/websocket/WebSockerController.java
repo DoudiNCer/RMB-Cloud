@@ -1,4 +1,4 @@
-package org.sipc.controlserver.controller.tcl;
+package org.sipc.controlserver.websocket;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArraySet;
