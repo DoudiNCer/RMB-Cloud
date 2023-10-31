@@ -1,5 +1,6 @@
 package org.sipc.controlserver.controller.tcl;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.http.entity.ContentType;
 import org.sipc.controlserver.pojo.dto.CommonResult;
 import org.sipc.controlserver.pojo.dto.resultEnum.ResultEnum;
@@ -17,6 +18,7 @@ import java.io.IOException;
 import java.util.*;
 
 @RestController
+@Slf4j
 public class HardwareController {
     public static Map<String, Integer> garbageType = new HashMap<>(4);
     static {
@@ -34,23 +36,29 @@ public class HardwareController {
     @PostMapping("/hardware/photo")
     public CommonResult<String> uploadPhoto(@RequestBody UploadPhotoParam param){
         byte[] decode = Base64.getDecoder().decode(param.getPhoto());
+        if(decode == null || decode.length == 0){
+            log.warn("Decode Base64 Error, source is: " + param.getPhoto());
+            return CommonResult.fail("Create MockMultipartFile Error");
+        }
         MultipartFile file = null;
         try {
             file = new MockMultipartFile(ContentType.APPLICATION_OCTET_STREAM.toString(), new ByteArrayInputStream(decode));
-        } catch (IOException ignored) {
-
+        } catch (IOException e) {
+            log.warn("Create MockMultipartFile Error, Base64: " + param.getPhoto());
         }
         if (file == null){
-            return CommonResult.fail("");
+            return CommonResult.fail("Create MockMultipartFile Error");
         }
         CommonResult<UploadResult> identify = null;
         try {
             identify = garbageController.identify(1, null, file);
-        } catch (Exception ignored) {
-
+        } catch (Exception e) {
+            log.warn("Identify Photo Error: " + e.getMessage());
+            e.printStackTrace();
         }
         if (identify == null || !Objects.equals(identify.getCode(), ResultEnum.SUCCESS.getCode()) || identify.getData() == null){
-            return CommonResult.fail("");
+            log.warn("Identify Photo Error: " + identify);
+            return CommonResult.fail("Identify Photo Error");
         }
         Set<Integer> result = new HashSet<>(4);
         for (String s : identify.getData().getList()) {
