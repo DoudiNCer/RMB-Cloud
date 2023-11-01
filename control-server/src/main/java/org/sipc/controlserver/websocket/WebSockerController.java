@@ -40,6 +40,8 @@ public class WebSockerController {
             webSockets.add(this);
             sessionPool.put(hwId, session);
             log.info("[WebSocket]New Connect, now the connections: "+webSockets.size());
+            // WebSocket 初始化测试
+            sendOneMessage(hwId, "0123");
         } catch (Exception ignored) {
         }
     }
