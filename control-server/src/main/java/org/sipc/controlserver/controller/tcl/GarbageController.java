@@ -1,5 +1,6 @@
 package org.sipc.controlserver.controller.tcl;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.sipc.controlserver.exection.DateBaseException;
 import org.sipc.controlserver.pojo.dto.CommonResult;
@@ -25,7 +26,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.Objects;
 
 /**
@@ -36,6 +39,7 @@ import java.util.Objects;
 @RestController
 //@RequiredArgsConstructor(onConstructor_ = {@Autowired})
 @RequestMapping("/garbage")
+@Slf4j
 public class GarbageController {
 
     @DubboReference
@@ -210,7 +214,12 @@ public class GarbageController {
         } else {
             InputStream ins = null;
             ins = file.getInputStream();
-            toFile = new File(Objects.requireNonNull(file.getOriginalFilename()));
+            log.info("originFileName = " + file.getOriginalFilename());
+            String pathname = Objects.requireNonNull(file.getOriginalFilename());
+            if (pathname.length() == 0){
+                pathname = Base64.getEncoder().encodeToString((LocalDateTime.now()).toString().getBytes()) + ".jpg";
+            }
+            toFile = new File(pathname);
 //            inputStreamToFile(ins, toFile);
             copyInputStreamToFile(ins, toFile);
             ins.close();
@@ -220,7 +229,7 @@ public class GarbageController {
 
     private void copyInputStreamToFile(InputStream inputStream, File file)
             throws IOException {
-
+        log.info("File Path = " + file.getAbsolutePath());
         try (FileOutputStream outputStream = new FileOutputStream(file)) {
 
             int read;
